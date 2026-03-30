@@ -1,0 +1,89 @@
+.dna-helix-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.dna-helix-wrapper {
+  position: relative;
+  width: 200px;
+  height: 400px;
+  transform-style: preserve-3d;
+  animation: helixRotate 30s linear infinite;
+}
+
+@keyframes helixRotate {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.helix-strand {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: strandPulse 4s ease-in-out infinite;
+}
+
+@keyframes strandPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.helix-base-pair {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.particle-field {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--ring);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: particleFloat 20s ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+  0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+  25% { transform: translate(20px, -30px); opacity: 0.6; }
+  50% { transform: translate(-10px, -60px); opacity: 0.3; }
+  75% { transform: translate(30px, -40px); opacity: 0.5; }
+}
+
+.glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: orbDrift 15s ease-in-out infinite;
+}
+
+.glass-orb:nth-child(1) {
+  width: 200px; height: 200px; top: 10%; left: 10%;
+}
+.glass-orb:nth-child(2) {
+  width: 150px; height: 150px; bottom: 20%; right: 15%;
+}
+.glass-orb:nth-child(3) {
+  width: 100px; height: 100px; top: 50%; left: 50%;
+}
+
+@keyframes orbDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -20px) scale(1.05); }
+  66% { transform: translate(-15px, 15px) scale(0.95); }
+}

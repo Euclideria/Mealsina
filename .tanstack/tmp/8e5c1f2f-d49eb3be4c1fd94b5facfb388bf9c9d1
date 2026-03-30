@@ -36,7 +36,6 @@ import { Route as AuthenticatedExportIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedChartsIndexRouteImport } from './routes/_authenticated/charts/index'
 import { Route as AuthenticatedBloodTestsIndexRouteImport } from './routes/_authenticated/blood-tests/index'
-import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authenticated/apps/index'
 import { Route as AuthenticatedAnomaliesIndexRouteImport } from './routes/_authenticated/anomalies/index'
 import { Route as AuthenticatedAiIndexRouteImport } from './routes/_authenticated/ai/index'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
@@ -191,11 +190,6 @@ const AuthenticatedBloodTestsIndexRoute =
     path: '/blood-tests/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexRouteImport.update({
-  id: '/apps/',
-  path: '/apps/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedAnomaliesIndexRoute =
   AuthenticatedAnomaliesIndexRouteImport.update({
     id: '/anomalies/',
@@ -258,7 +252,6 @@ export interface FileRoutesByFullPath {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/ai/': typeof AuthenticatedAiIndexRoute
   '/anomalies/': typeof AuthenticatedAnomaliesIndexRoute
-  '/apps/': typeof AuthenticatedAppsIndexRoute
   '/blood-tests/': typeof AuthenticatedBloodTestsIndexRoute
   '/charts/': typeof AuthenticatedChartsIndexRoute
   '/chats/': typeof AuthenticatedChatsIndexRoute
@@ -293,7 +286,6 @@ export interface FileRoutesByTo {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/ai': typeof AuthenticatedAiIndexRoute
   '/anomalies': typeof AuthenticatedAnomaliesIndexRoute
-  '/apps': typeof AuthenticatedAppsIndexRoute
   '/blood-tests': typeof AuthenticatedBloodTestsIndexRoute
   '/charts': typeof AuthenticatedChartsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
@@ -331,7 +323,6 @@ export interface FileRoutesById {
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/ai/': typeof AuthenticatedAiIndexRoute
   '/_authenticated/anomalies/': typeof AuthenticatedAnomaliesIndexRoute
-  '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
   '/_authenticated/blood-tests/': typeof AuthenticatedBloodTestsIndexRoute
   '/_authenticated/charts/': typeof AuthenticatedChartsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
@@ -369,7 +360,6 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/ai/'
     | '/anomalies/'
-    | '/apps/'
     | '/blood-tests/'
     | '/charts/'
     | '/chats/'
@@ -404,7 +394,6 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/ai'
     | '/anomalies'
-    | '/apps'
     | '/blood-tests'
     | '/charts'
     | '/chats'
@@ -441,7 +430,6 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/notifications'
     | '/_authenticated/ai/'
     | '/_authenticated/anomalies/'
-    | '/_authenticated/apps/'
     | '/_authenticated/blood-tests/'
     | '/_authenticated/charts/'
     | '/_authenticated/chats/'
@@ -663,13 +651,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBloodTestsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/apps/': {
-      id: '/_authenticated/apps/'
-      path: '/apps'
-      fullPath: '/apps/'
-      preLoaderRoute: typeof AuthenticatedAppsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/anomalies/': {
       id: '/_authenticated/anomalies/'
       path: '/anomalies'
@@ -751,7 +732,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAiIndexRoute: typeof AuthenticatedAiIndexRoute
   AuthenticatedAnomaliesIndexRoute: typeof AuthenticatedAnomaliesIndexRoute
-  AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedBloodTestsIndexRoute: typeof AuthenticatedBloodTestsIndexRoute
   AuthenticatedChartsIndexRoute: typeof AuthenticatedChartsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
@@ -773,7 +753,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAiIndexRoute: AuthenticatedAiIndexRoute,
   AuthenticatedAnomaliesIndexRoute: AuthenticatedAnomaliesIndexRoute,
-  AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedBloodTestsIndexRoute: AuthenticatedBloodTestsIndexRoute,
   AuthenticatedChartsIndexRoute: AuthenticatedChartsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,

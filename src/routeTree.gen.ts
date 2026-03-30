@@ -33,7 +33,6 @@ import { Route as AuthenticatedIllnessIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedHealthIndexRouteImport } from './routes/_authenticated/health/index'
 import { Route as AuthenticatedExportIndexRouteImport } from './routes/_authenticated/export/index'
-import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedChartsIndexRouteImport } from './routes/_authenticated/charts/index'
 import { Route as AuthenticatedBloodTestsIndexRouteImport } from './routes/_authenticated/blood-tests/index'
 import { Route as AuthenticatedAnomaliesIndexRouteImport } from './routes/_authenticated/anomalies/index'
@@ -173,11 +172,6 @@ const AuthenticatedExportIndexRoute =
     path: '/export/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
-  id: '/chats/',
-  path: '/chats/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedChartsIndexRoute =
   AuthenticatedChartsIndexRouteImport.update({
     id: '/charts/',
@@ -254,7 +248,6 @@ export interface FileRoutesByFullPath {
   '/anomalies/': typeof AuthenticatedAnomaliesIndexRoute
   '/blood-tests/': typeof AuthenticatedBloodTestsIndexRoute
   '/charts/': typeof AuthenticatedChartsIndexRoute
-  '/chats/': typeof AuthenticatedChatsIndexRoute
   '/export/': typeof AuthenticatedExportIndexRoute
   '/health/': typeof AuthenticatedHealthIndexRoute
   '/help-center/': typeof AuthenticatedHelpCenterIndexRoute
@@ -288,7 +281,6 @@ export interface FileRoutesByTo {
   '/anomalies': typeof AuthenticatedAnomaliesIndexRoute
   '/blood-tests': typeof AuthenticatedBloodTestsIndexRoute
   '/charts': typeof AuthenticatedChartsIndexRoute
-  '/chats': typeof AuthenticatedChatsIndexRoute
   '/export': typeof AuthenticatedExportIndexRoute
   '/health': typeof AuthenticatedHealthIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
@@ -325,7 +317,6 @@ export interface FileRoutesById {
   '/_authenticated/anomalies/': typeof AuthenticatedAnomaliesIndexRoute
   '/_authenticated/blood-tests/': typeof AuthenticatedBloodTestsIndexRoute
   '/_authenticated/charts/': typeof AuthenticatedChartsIndexRoute
-  '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/export/': typeof AuthenticatedExportIndexRoute
   '/_authenticated/health/': typeof AuthenticatedHealthIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
@@ -362,7 +353,6 @@ export interface FileRouteTypes {
     | '/anomalies/'
     | '/blood-tests/'
     | '/charts/'
-    | '/chats/'
     | '/export/'
     | '/health/'
     | '/help-center/'
@@ -396,7 +386,6 @@ export interface FileRouteTypes {
     | '/anomalies'
     | '/blood-tests'
     | '/charts'
-    | '/chats'
     | '/export'
     | '/health'
     | '/help-center'
@@ -432,7 +421,6 @@ export interface FileRouteTypes {
     | '/_authenticated/anomalies/'
     | '/_authenticated/blood-tests/'
     | '/_authenticated/charts/'
-    | '/_authenticated/chats/'
     | '/_authenticated/export/'
     | '/_authenticated/health/'
     | '/_authenticated/help-center/'
@@ -630,13 +618,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedExportIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/chats/': {
-      id: '/_authenticated/chats/'
-      path: '/chats'
-      fullPath: '/chats/'
-      preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/charts/': {
       id: '/_authenticated/charts/'
       path: '/charts'
@@ -734,7 +715,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnomaliesIndexRoute: typeof AuthenticatedAnomaliesIndexRoute
   AuthenticatedBloodTestsIndexRoute: typeof AuthenticatedBloodTestsIndexRoute
   AuthenticatedChartsIndexRoute: typeof AuthenticatedChartsIndexRoute
-  AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedExportIndexRoute: typeof AuthenticatedExportIndexRoute
   AuthenticatedHealthIndexRoute: typeof AuthenticatedHealthIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
@@ -755,7 +735,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnomaliesIndexRoute: AuthenticatedAnomaliesIndexRoute,
   AuthenticatedBloodTestsIndexRoute: AuthenticatedBloodTestsIndexRoute,
   AuthenticatedChartsIndexRoute: AuthenticatedChartsIndexRoute,
-  AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedExportIndexRoute: AuthenticatedExportIndexRoute,
   AuthenticatedHealthIndexRoute: AuthenticatedHealthIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,

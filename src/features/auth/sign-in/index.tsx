@@ -1,4 +1,4 @@
-import { useSearch } from '@tanstack/react-router'
+import { useLocation } from '@tanstack/react-router'
 import {
   Card,
   CardContent,
@@ -11,7 +11,9 @@ import { AuthLayout } from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
 
 export function SignIn() {
-  const { redirect } = useSearch({ from: '/(auth)/sign-in' })
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const redirect = searchParams.get('redirect') ?? undefined
 
   return (
     <AuthLayout>

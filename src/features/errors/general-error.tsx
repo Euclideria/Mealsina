@@ -4,14 +4,20 @@ import { Button } from '@/components/ui/button'
 
 type GeneralErrorProps = React.HTMLAttributes<HTMLDivElement> & {
   minimal?: boolean
+  error?: unknown
 }
 
 export function GeneralError({
   className,
   minimal = false,
+  error,
 }: GeneralErrorProps) {
   const navigate = useNavigate()
   const { history } = useRouter()
+
+  // Log error to console for debugging
+  console.error('[GeneralError]', error)
+
   return (
     <div className={cn('h-svh w-full', className)}>
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>

@@ -1,203 +1,138 @@
 import {
-  Construction,
   LayoutDashboard,
-  Monitor,
-  Bug,
-  ListTodo,
-  FileX,
-  HelpCircle,
-  Lock,
+  Heart,
+  TestTube,
+  TrendingUp,
+  Utensils,
+  BarChart3,
+  Pill,
+  Bot,
+  AlertTriangle,
+  Thermometer,
   Bell,
-  Package,
-  Palette,
-  ServerOff,
+  Search,
+  Download,
   Settings,
-  Wrench,
-  UserCog,
-  UserX,
-  Users,
-  MessagesSquare,
-  ShieldCheck,
-  AudioWaveform,
-  Command,
-  GalleryVerticalEnd,
+  Activity,
 } from 'lucide-react'
-import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
   user: {
-    name: 'satnaing',
-    email: 'satnaingdev@gmail.com',
+    name: 'Utilisateur',
+    email: 'user@mealsina.com',
     avatar: '/avatars/shadcn.jpg',
   },
   teams: [
     {
-      name: 'Shadcn Admin',
-      logo: Command,
-      plan: 'Vite + ShadcnUI',
-    },
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
+      name: 'Mealsina',
+      logo: Heart,
+      plan: 'Health Dashboard',
     },
   ],
   navGroups: [
     {
-      title: 'General',
+      title: 'Accueil',
       items: [
         {
           title: 'Dashboard',
           url: '/',
           icon: LayoutDashboard,
         },
+      ],
+    },
+    {
+      title: 'Santé',
+      items: [
         {
-          title: 'Tasks',
-          url: '/tasks',
-          icon: ListTodo,
+          title: 'Garmin',
+          url: '/health',
+          icon: Activity,
         },
         {
-          title: 'Apps',
-          url: '/apps',
-          icon: Package,
+          title: 'Bilans Sanguins',
+          url: '/blood-tests',
+          icon: TestTube,
         },
         {
-          title: 'Chats',
-          url: '/chats',
-          badge: '3',
-          icon: MessagesSquare,
-        },
-        {
-          title: 'Users',
-          url: '/users',
-          icon: Users,
-        },
-        {
-          title: 'Secured by Clerk',
-          icon: ClerkLogo,
-          items: [
-            {
-              title: 'Sign In',
-              url: '/clerk/sign-in',
-            },
-            {
-              title: 'Sign Up',
-              url: '/clerk/sign-up',
-            },
-            {
-              title: 'User Management',
-              url: '/clerk/user-management',
-            },
-          ],
+          title: 'KPIs',
+          url: '/kpi',
+          icon: TrendingUp,
         },
       ],
     },
     {
-      title: 'Pages',
+      title: 'Nutrition',
       items: [
         {
-          title: 'Auth',
-          icon: ShieldCheck,
-          items: [
-            {
-              title: 'Sign In',
-              url: '/sign-in',
-            },
-            {
-              title: 'Sign In (2 Col)',
-              url: '/sign-in-2',
-            },
-            {
-              title: 'Sign Up',
-              url: '/sign-up',
-            },
-            {
-              title: 'Forgot Password',
-              url: '/forgot-password',
-            },
-            {
-              title: 'OTP',
-              url: '/otp',
-            },
-          ],
+          title: 'Repas',
+          url: '/meals',
+          icon: Utensils,
         },
         {
-          title: 'Errors',
-          icon: Bug,
-          items: [
-            {
-              title: 'Unauthorized',
-              url: '/errors/unauthorized',
-              icon: Lock,
-            },
-            {
-              title: 'Forbidden',
-              url: '/errors/forbidden',
-              icon: UserX,
-            },
-            {
-              title: 'Not Found',
-              url: '/errors/not-found',
-              icon: FileX,
-            },
-            {
-              title: 'Internal Server Error',
-              url: '/errors/internal-server-error',
-              icon: ServerOff,
-            },
-            {
-              title: 'Maintenance Error',
-              url: '/errors/maintenance-error',
-              icon: Construction,
-            },
-          ],
+          title: 'Graphiques',
+          url: '/charts',
+          icon: BarChart3,
         },
       ],
     },
     {
-      title: 'Other',
+      title: 'Traitements',
       items: [
         {
-          title: 'Settings',
+          title: 'Médicaments',
+          url: '/treatments',
+          icon: Pill,
+        },
+      ],
+    },
+    {
+      title: 'IA',
+      items: [
+        {
+          title: 'Chat IA',
+          url: '/ai',
+          icon: Bot,
+        },
+      ],
+    },
+    {
+      title: 'Alertes',
+      items: [
+        {
+          title: 'Anomalies',
+          url: '/anomalies',
+          icon: AlertTriangle,
+        },
+        {
+          title: 'Maladies',
+          url: '/illness',
+          icon: Thermometer,
+        },
+      ],
+    },
+    {
+      title: 'Système',
+      items: [
+        {
+          title: 'Notifications',
+          url: '/notifications',
+          icon: Bell,
+        },
+        {
+          title: 'Recherche',
+          url: '/search',
+          icon: Search,
+        },
+        {
+          title: 'Préférences',
+          url: '/preferences',
           icon: Settings,
-          items: [
-            {
-              title: 'Profile',
-              url: '/settings',
-              icon: UserCog,
-            },
-            {
-              title: 'Account',
-              url: '/settings/account',
-              icon: Wrench,
-            },
-            {
-              title: 'Appearance',
-              url: '/settings/appearance',
-              icon: Palette,
-            },
-            {
-              title: 'Notifications',
-              url: '/settings/notifications',
-              icon: Bell,
-            },
-            {
-              title: 'Display',
-              url: '/settings/display',
-              icon: Monitor,
-            },
-          ],
         },
         {
-          title: 'Help Center',
-          url: '/help-center',
-          icon: HelpCircle,
+          title: 'Export',
+          url: '/export',
+          icon: Download,
         },
       ],
     },

@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './theme.css';
+@plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -84,4 +85,9 @@
   to {
     height: 0;
   }
+}
+
+/* Hide sidebar rail (the resize handle line) */
+[data-slot="sidebar-rail"] {
+  display: none !important;
 }

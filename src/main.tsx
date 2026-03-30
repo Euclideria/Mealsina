@@ -18,13 +18,27 @@ import { routeTree } from './routeTree.gen'
 // Styles
 import './styles/index.css'
 
+// Global fetch interceptor for 401/403
+const originalFetch = window.fetch
+window.fetch = async (input, init) => {
+  const response = await originalFetch(input, init)
+
+  // Check for auth errors on API calls
+  if (response.status === 401 || response.status === 403) {
+    const url = typeof input === 'string' ? input : (input as Request).url
+    if (url && url.includes('/api/')) {
+      useAuthStore.getState().auth.reset()
+      window.location.href = '/auth?error=token_expired'
+    }
+  }
+
+  return response
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: (failureCount, error) => {
-        // eslint-disable-next-line no-console
-        if (import.meta.env.DEV) console.log({ failureCount, error })
-
         if (failureCount >= 0 && import.meta.env.DEV) return false
         if (failureCount > 3 && import.meta.env.PROD) return false
 
@@ -55,18 +69,22 @@ const queryClient = new QueryClient({
           toast.error('Session expired!')
           useAuthStore.getState().auth.reset()
           const redirect = `${router.history.location.href}`
-          router.navigate({ to: '/sign-in', search: { redirect } })
+          router.navigate({ to: '/auth', search: { redirect } })
         }
         if (error.response?.status === 500) {
-          toast.error('Internal Server Error!')
-          // Only navigate to error page in production to avoid disrupting HMR in development
-          if (import.meta.env.PROD) {
-            router.navigate({ to: '/500' })
-          }
+          toast.error('Erreur serveur interne!')
         }
-        if (error.response?.status === 403) {
-          // router.navigate("/forbidden", { replace: true });
-        }
+      }
+      // Handle custom ApiError from api-client.ts
+      const err = error as { response?: { status: number }; message?: string }
+      if (err.response?.status === 401) {
+        toast.error('Session expired!')
+        useAuthStore.getState().auth.reset()
+        const redirect = `${router.history.location.href}`
+        router.navigate({ to: '/auth', search: { redirect } })
+      }
+      if (err.response?.status === 500) {
+        toast.error(`Erreur serveur interne: ${err.message}`)
       }
     },
   }),

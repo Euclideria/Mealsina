@@ -6,6 +6,7 @@ const API_VERSION = '/api/v1'
 // Token refresh state
 let _isRefreshing = false
 let _refreshPromise: Promise<string> | null = null
+let _refreshAttemptCount = 0
 
 interface RequestOptions extends RequestInit {
   params?: Record<string, string | number | boolean | undefined>
@@ -60,26 +61,86 @@ async function handleResponse<T>(response: Response): Promise<T> {
 }
 
 async function _refreshAccessToken(): Promise<string> {
-  const response = await fetch(buildUrl('/auth/refresh'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    // httpOnly cookie automatically sent by browser
-  })
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-  if (!response.ok) {
-    // Refresh token expired or invalid - force logout
-    useAuthStore.getState().auth.reset()
-    window.location.href = '/sign-in'
-    throw new Error('Session expired')
+  try {
+    const response = await fetch(buildUrl('/auth/refresh'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+      // httpOnly cookie automatically sent by browser
+    })
+    clearTimeout(timeoutId)
+
+    if (!response.ok) {
+      // Refresh token expired or invalid - force logout
+      useAuthStore.getState().auth.reset()
+      window.location.href = '/sign-in'
+      throw new Error('Session expired')
+    }
+
+    const result = await response.json()
+    const newToken = result.access_token
+
+    // Store new access token
+    useAuthStore.getState().auth.setAccessToken(newToken)
+
+    return newToken
+  } catch (error) {
+    clearTimeout(timeoutId)
+    if (error instanceof Error && error.name === 'AbortError') {
+      useAuthStore.getState().auth.reset()
+      window.location.href = '/sign-in'
+      throw new Error('Session refresh timed out')
+    }
+    throw error
+  }
+}
+
+async function _fetchWithRefresh<T>(
+  url: string,
+  options: RequestInit
+): Promise<T> {
+  const response = await fetch(url, options)
+
+  if (response.status === 401 && !(options.headers as Record<string, string> | undefined)?.['x-refreshing']) {
+    if (!_isRefreshing) {
+      _isRefreshing = true
+      _refreshAttemptCount = 0
+      _refreshPromise = _refreshAccessToken().finally(() => {
+        _isRefreshing = false
+        _refreshPromise = null
+      })
+    }
+
+    try {
+      await _refreshPromise
+      _refreshAttemptCount++
+
+      // If refresh has failed 2+ times, don't retry - force logout
+      if (_refreshAttemptCount >= 2) {
+        useAuthStore.getState().auth.reset()
+        window.location.href = '/sign-in'
+        throw new ApiError(401, 'Session expired after multiple refresh attempts')
+      }
+
+      // Retry original request with new token
+      return fetch(url, {
+        ...options,
+        headers: {
+          ...options.headers,
+          'Authorization': `Bearer ${useAuthStore.getState().auth.accessToken}`,
+          'x-refreshing': 'true',
+        },
+      }).then(handleResponse<T>)
+    } finally {
+      _isRefreshing = false
+      _refreshPromise = null
+    }
   }
 
-  const result = await response.json()
-  const newToken = result.access_token
-
-  // Store new access token
-  useAuthStore.getState().auth.setAccessToken(newToken)
-
-  return newToken
+  return handleResponse<T>(response)
 }
 
 export const apiClient = {
@@ -87,7 +148,7 @@ export const apiClient = {
     const token = getAuthToken()
     const url = buildUrl(endpoint, options?.params)
 
-    const response = await fetch(url, {
+    return _fetchWithRefresh<T>(url, {
       ...options,
       method: 'GET',
       headers: {
@@ -96,28 +157,13 @@ export const apiClient = {
         ...options?.headers,
       },
     })
-
-    // Handle 401: try to refresh token and retry
-    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
-      if (!_isRefreshing) {
-        _isRefreshing = true
-        _refreshPromise = _refreshAccessToken().finally(() => {
-          _isRefreshing = false
-          _refreshPromise = null
-        })
-      }
-      await _refreshPromise
-      return this.get<T>(endpoint, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
-    }
-
-    return handleResponse<T>(response)
   },
 
   async post<T>(endpoint: string, body?: unknown, options?: RequestOptions): Promise<T> {
     const token = getAuthToken()
     const url = buildUrl(endpoint, options?.params)
 
-    const response = await fetch(url, {
+    return _fetchWithRefresh<T>(url, {
       ...options,
       method: 'POST',
       headers: {
@@ -127,28 +173,13 @@ export const apiClient = {
       },
       body: body ? JSON.stringify(body) : undefined,
     })
-
-    // Handle 401: try to refresh token and retry
-    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
-      if (!_isRefreshing) {
-        _isRefreshing = true
-        _refreshPromise = _refreshAccessToken().finally(() => {
-          _isRefreshing = false
-          _refreshPromise = null
-        })
-      }
-      await _refreshPromise
-      return this.post<T>(endpoint, body, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
-    }
-
-    return handleResponse<T>(response)
   },
 
   async put<T>(endpoint: string, body?: unknown, options?: RequestOptions): Promise<T> {
     const token = getAuthToken()
     const url = buildUrl(endpoint, options?.params)
 
-    const response = await fetch(url, {
+    return _fetchWithRefresh<T>(url, {
       ...options,
       method: 'PUT',
       headers: {
@@ -158,28 +189,13 @@ export const apiClient = {
       },
       body: body ? JSON.stringify(body) : undefined,
     })
-
-    // Handle 401: try to refresh token and retry
-    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
-      if (!_isRefreshing) {
-        _isRefreshing = true
-        _refreshPromise = _refreshAccessToken().finally(() => {
-          _isRefreshing = false
-          _refreshPromise = null
-        })
-      }
-      await _refreshPromise
-      return this.put<T>(endpoint, body, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
-    }
-
-    return handleResponse<T>(response)
   },
 
   async delete<T>(endpoint: string, options?: RequestOptions): Promise<T> {
     const token = getAuthToken()
     const url = buildUrl(endpoint, options?.params)
 
-    const response = await fetch(url, {
+    return _fetchWithRefresh<T>(url, {
       ...options,
       method: 'DELETE',
       headers: {
@@ -188,21 +204,6 @@ export const apiClient = {
         ...options?.headers,
       },
     })
-
-    // Handle 401: try to refresh token and retry
-    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
-      if (!_isRefreshing) {
-        _isRefreshing = true
-        _refreshPromise = _refreshAccessToken().finally(() => {
-          _isRefreshing = false
-          _refreshPromise = null
-        })
-      }
-      await _refreshPromise
-      return this.delete<T>(endpoint, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
-    }
-
-    return handleResponse<T>(response)
   },
 
   async uploadFile<T>(
@@ -222,7 +223,7 @@ export const apiClient = {
       })
     }
 
-    const response = await fetch(url, {
+    return _fetchWithRefresh<T>(url, {
       ...options,
       method: 'POST',
       headers: {
@@ -231,21 +232,6 @@ export const apiClient = {
       },
       body: formData,
     })
-
-    // Handle 401: try to refresh token and retry
-    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
-      if (!_isRefreshing) {
-        _isRefreshing = true
-        _refreshPromise = _refreshAccessToken().finally(() => {
-          _isRefreshing = false
-          _refreshPromise = null
-        })
-      }
-      await _refreshPromise
-      return this.uploadFile<T>(endpoint, file, additionalData, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
-    }
-
-    return handleResponse<T>(response)
   },
 
   async uploadFileWithFormData<T>(
@@ -256,7 +242,7 @@ export const apiClient = {
     const token = getAuthToken()
     const url = buildUrl(endpoint)
 
-    const response = await fetch(url, {
+    return _fetchWithRefresh<T>(url, {
       ...options,
       method: 'POST',
       headers: {
@@ -265,21 +251,6 @@ export const apiClient = {
       },
       body: formData,
     })
-
-    // Handle 401: try to refresh token and retry
-    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
-      if (!_isRefreshing) {
-        _isRefreshing = true
-        _refreshPromise = _refreshAccessToken().finally(() => {
-          _isRefreshing = false
-          _refreshPromise = null
-        })
-      }
-      await _refreshPromise
-      return this.uploadFileWithFormData<T>(endpoint, formData, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
-    }
-
-    return handleResponse<T>(response)
   },
 }
 

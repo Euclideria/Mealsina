@@ -125,7 +125,7 @@ export function UserAuthForm({
         />
         <Button className='mt-2' disabled={isLoading}>
           {isLoading ? <Loader2 className='animate-spin' /> : <LogIn />}
-          Sign in
+          Connexion à Mealsina
         </Button>
       </form>
     </Form>

@@ -7,7 +7,7 @@ export function SignIn2() {
       <div className='flex flex-col items-center justify-center px-8'>
         <div className='w-full max-w-sm space-y-6'>
           <div className='flex flex-col space-y-2 text-start'>
-            <h2 className='text-lg font-semibold tracking-tight'>Sign in</h2>
+            <h2 className='text-lg font-semibold tracking-tight'>Connexion à Mealsina</h2>
           </div>
           <UserAuthForm />
         </div>

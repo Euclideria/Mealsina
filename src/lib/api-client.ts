@@ -3,8 +3,13 @@ import { useAuthStore } from '@/stores/auth-store'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 const API_VERSION = '/api/v1'
 
+// Token refresh state
+let _isRefreshing = false
+let _refreshPromise: Promise<string> | null = null
+
 interface RequestOptions extends RequestInit {
   params?: Record<string, string | number | boolean | undefined>
+  headers?: Record<string, string>
 }
 
 class ApiError extends Error {
@@ -54,6 +59,29 @@ async function handleResponse<T>(response: Response): Promise<T> {
   return response.json()
 }
 
+async function _refreshAccessToken(): Promise<string> {
+  const response = await fetch(buildUrl('/auth/refresh'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    // httpOnly cookie automatically sent by browser
+  })
+
+  if (!response.ok) {
+    // Refresh token expired or invalid - force logout
+    useAuthStore.getState().auth.reset()
+    window.location.href = '/sign-in'
+    throw new Error('Session expired')
+  }
+
+  const result = await response.json()
+  const newToken = result.access_token
+
+  // Store new access token
+  useAuthStore.getState().auth.setAccessToken(newToken)
+
+  return newToken
+}
+
 export const apiClient = {
   async get<T>(endpoint: string, options?: RequestOptions): Promise<T> {
     const token = getAuthToken()
@@ -68,6 +96,19 @@ export const apiClient = {
         ...options?.headers,
       },
     })
+
+    // Handle 401: try to refresh token and retry
+    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
+      if (!_isRefreshing) {
+        _isRefreshing = true
+        _refreshPromise = _refreshAccessToken().finally(() => {
+          _isRefreshing = false
+          _refreshPromise = null
+        })
+      }
+      await _refreshPromise
+      return this.get<T>(endpoint, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
+    }
 
     return handleResponse<T>(response)
   },
@@ -87,6 +128,19 @@ export const apiClient = {
       body: body ? JSON.stringify(body) : undefined,
     })
 
+    // Handle 401: try to refresh token and retry
+    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
+      if (!_isRefreshing) {
+        _isRefreshing = true
+        _refreshPromise = _refreshAccessToken().finally(() => {
+          _isRefreshing = false
+          _refreshPromise = null
+        })
+      }
+      await _refreshPromise
+      return this.post<T>(endpoint, body, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
+    }
+
     return handleResponse<T>(response)
   },
 
@@ -105,6 +159,19 @@ export const apiClient = {
       body: body ? JSON.stringify(body) : undefined,
     })
 
+    // Handle 401: try to refresh token and retry
+    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
+      if (!_isRefreshing) {
+        _isRefreshing = true
+        _refreshPromise = _refreshAccessToken().finally(() => {
+          _isRefreshing = false
+          _refreshPromise = null
+        })
+      }
+      await _refreshPromise
+      return this.put<T>(endpoint, body, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
+    }
+
     return handleResponse<T>(response)
   },
 
@@ -122,13 +189,27 @@ export const apiClient = {
       },
     })
 
+    // Handle 401: try to refresh token and retry
+    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
+      if (!_isRefreshing) {
+        _isRefreshing = true
+        _refreshPromise = _refreshAccessToken().finally(() => {
+          _isRefreshing = false
+          _refreshPromise = null
+        })
+      }
+      await _refreshPromise
+      return this.delete<T>(endpoint, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
+    }
+
     return handleResponse<T>(response)
   },
 
   async uploadFile<T>(
     endpoint: string,
     file: File,
-    additionalData?: Record<string, string>
+    additionalData?: Record<string, string>,
+    options?: RequestOptions
   ): Promise<T> {
     const token = getAuthToken()
     const url = buildUrl(endpoint)
@@ -142,30 +223,61 @@ export const apiClient = {
     }
 
     const response = await fetch(url, {
+      ...options,
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
+        ...options?.headers,
       },
       body: formData,
     })
+
+    // Handle 401: try to refresh token and retry
+    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
+      if (!_isRefreshing) {
+        _isRefreshing = true
+        _refreshPromise = _refreshAccessToken().finally(() => {
+          _isRefreshing = false
+          _refreshPromise = null
+        })
+      }
+      await _refreshPromise
+      return this.uploadFile<T>(endpoint, file, additionalData, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
+    }
 
     return handleResponse<T>(response)
   },
 
   async uploadFileWithFormData<T>(
     endpoint: string,
-    formData: FormData
+    formData: FormData,
+    options?: RequestOptions
   ): Promise<T> {
     const token = getAuthToken()
     const url = buildUrl(endpoint)
 
     const response = await fetch(url, {
+      ...options,
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
+        ...options?.headers,
       },
       body: formData,
     })
+
+    // Handle 401: try to refresh token and retry
+    if (response.status === 401 && !options?.headers?.['x-refreshing']) {
+      if (!_isRefreshing) {
+        _isRefreshing = true
+        _refreshPromise = _refreshAccessToken().finally(() => {
+          _isRefreshing = false
+          _refreshPromise = null
+        })
+      }
+      await _refreshPromise
+      return this.uploadFileWithFormData<T>(endpoint, formData, { ...options, headers: { ...options?.headers, 'x-refreshing': 'true' } })
+    }
 
     return handleResponse<T>(response)
   },

@@ -99,9 +99,9 @@
 
 @keyframes rotation {
   from {
-    transform: rotateY(0deg);
+    transform: rotateX(0deg);
   }
   to {
-    transform: rotateY(360deg);
+    transform: rotateX(359deg);
   }
 }

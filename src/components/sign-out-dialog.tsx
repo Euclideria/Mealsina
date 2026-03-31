@@ -7,9 +7,9 @@ interface SignOutDialogProps {
 }
 
 export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     onOpenChange(false)
-    await apiClient.logout()
+    apiClient.logout()
   }
 
   return (

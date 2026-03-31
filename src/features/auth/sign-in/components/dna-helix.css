@@ -1,4 +1,4 @@
-/* DNA Helix Container */
+/* DNA Helix Container - rotated 90 degrees */
 .dna-helix-container {
   position: relative;
   width: 100%;
@@ -8,6 +8,7 @@
   justify-content: center;
   overflow: hidden;
   background-color: #0a0a0f;
+  transform: rotate(90deg);
 }
 
 /* DNA wrapper */

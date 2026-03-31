@@ -32,7 +32,6 @@
   margin-top: -80px;
   background-color: rgba(255, 255, 255, 0.1);
   float: left;
-  transform-style: preserve-3d;
   margin-left: 20px;
   animation: rotation 4s linear infinite;
 }
@@ -47,6 +46,7 @@
   height: 10px;
   background-color: white;
   border-radius: 5px;
+  transform-style: flat;
   animation: rotation 4s linear infinite reverse;
   z-index: 1;
 }
@@ -61,6 +61,7 @@
   height: 10px;
   background-color: white;
   border-radius: 5px;
+  transform-style: flat;
   animation: rotation 4s linear infinite reverse;
   z-index: 1;
 }

@@ -254,22 +254,17 @@ export const apiClient = {
   },
 
   async logout(): Promise<void> {
-    const response = await fetch(buildUrl('/auth/logout'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    })
-
-    // Clear local auth state regardless of server response
-    useAuthStore.getState().auth.reset()
-
-    // If server didn't return ok, still logout locally
-    if (!response.ok) {
-      // Already reset above, just redirect
+    try {
+      await fetch(buildUrl('/auth/logout'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+    } catch {
+      // Ensure logout completes even if server unreachable
+    } finally {
+      useAuthStore.getState().auth.reset()
       window.location.href = '/sign-in'
-      return
     }
-
-    window.location.href = '/sign-in'
   },
 }
 

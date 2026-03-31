@@ -19,7 +19,10 @@ export function SignIn() {
     <AuthLayout>
       <Card className='gap-4'>
         <CardHeader>
-          <CardTitle className='text-lg tracking-tight'>Connexion à Mealsina</CardTitle>
+          <div className='flex items-center gap-3'>
+            <img src='/Mealsina_logo.png' alt='Mealsina' className='h-10 w-auto' />
+            <CardTitle className='text-lg tracking-tight'>Connexion à Mealsina</CardTitle>
+          </div>
           <CardDescription>
             Enter your email and password below to <br />
             log into your account

@@ -15,11 +15,11 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 200px;
-  height: 400px;
-  margin-top: -200px;
-  margin-left: -100px;
-  perspective: 800px;
+  width: 400px;
+  height: 500px;
+  margin-top: -250px;
+  margin-left: -200px;
+  perspective: 1000px;
   transform-style: preserve-3d;
 }
 
@@ -34,98 +34,89 @@
 }
 
 .strand-1 {
-  animation: rotateY-strand-1 6s linear infinite;
+  animation: rotateY-strand-1 8s linear infinite;
 }
 
 .strand-2 {
-  animation: rotateY-strand-2 6s linear infinite;
+  animation: rotateY-strand-2 8s linear infinite;
 }
 
-/* Each bar positioned along helix using translateZ */
+/* Each bar positioned along helix */
 .bar {
   position: absolute;
-  top: 50%;
   left: 50%;
   width: 2px;
-  height: 160px;
-  margin-top: -80px;
+  height: 60px;
   margin-left: -1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   transform-style: preserve-3d;
 }
 
-/* Ball at top of bar - perfectly round with rotateY */
-.ball-top {
+/* Ball at top of bar */
+.bar::before {
+  content: "";
   position: absolute;
-  top: -8px;
-  left: -6px;
-  width: 14px;
-  height: 14px;
+  top: -6px;
+  left: -5px;
+  width: 12px;
+  height: 12px;
   background: white;
   border-radius: 50%;
 }
 
-/* Ball at bottom of bar - perfectly round with rotateY */
-.ball-bottom {
+/* Ball at bottom of bar */
+.bar::after {
+  content: "";
   position: absolute;
-  bottom: -8px;
-  left: -6px;
-  width: 14px;
-  height: 14px;
+  bottom: -6px;
+  left: -5px;
+  width: 12px;
+  height: 12px;
   background: white;
   border-radius: 50%;
 }
 
-/* Staggered animation delays for strand 1 */
-.strand-1 .bar:nth-child(1)  { transform: rotateY(0deg)    translateZ(80px); }
-.strand-1 .bar:nth-child(2)  { transform: rotateY(24deg)   translateZ(80px); }
-.strand-1 .bar:nth-child(3)  { transform: rotateY(48deg)   translateZ(80px); }
-.strand-1 .bar:nth-child(4)  { transform: rotateY(72deg)   translateZ(80px); }
-.strand-1 .bar:nth-child(5)  { transform: rotateY(96deg)   translateZ(80px); }
-.strand-1 .bar:nth-child(6)  { transform: rotateY(120deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(7)  { transform: rotateY(144deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(8)  { transform: rotateY(168deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(9)  { transform: rotateY(192deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(10) { transform: rotateY(216deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(11) { transform: rotateY(240deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(12) { transform: rotateY(264deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(13) { transform: rotateY(288deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(14) { transform: rotateY(312deg)  translateZ(80px); }
-.strand-1 .bar:nth-child(15) { transform: rotateY(336deg)  translateZ(80px); }
+/* Strand 1 - bars at different heights with rotateY and translateZ */
+.strand-1 .bar:nth-child(1)  { top: 5%;   transform: rotateY(0deg)    translateZ(60px); }
+.strand-1 .bar:nth-child(2)  { top: 12%;  transform: rotateY(24deg)   translateZ(60px); }
+.strand-1 .bar:nth-child(3)  { top: 19%;  transform: rotateY(48deg)   translateZ(60px); }
+.strand-1 .bar:nth-child(4)  { top: 26%;  transform: rotateY(72deg)   translateZ(60px); }
+.strand-1 .bar:nth-child(5)  { top: 33%;  transform: rotateY(96deg)   translateZ(60px); }
+.strand-1 .bar:nth-child(6)  { top: 40%;  transform: rotateY(120deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(7)  { top: 47%;  transform: rotateY(144deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(8)  { top: 54%;  transform: rotateY(168deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(9)  { top: 61%;  transform: rotateY(192deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(10) { top: 68%;  transform: rotateY(216deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(11) { top: 75%;  transform: rotateY(240deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(12) { top: 82%;  transform: rotateY(264deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(13) { top: 89%;  transform: rotateY(288deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(14) { top: 96%;  transform: rotateY(312deg)  translateZ(60px); }
+.strand-1 .bar:nth-child(15) { top: 103%; transform: rotateY(336deg)  translateZ(60px); }
 
-/* Staggered animation delays for strand 2 - 180 degrees out of phase */
-.strand-2 .bar:nth-child(1)  { transform: rotateY(180deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(2)  { transform: rotateY(204deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(3)  { transform: rotateY(228deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(4)  { transform: rotateY(252deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(5)  { transform: rotateY(276deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(6)  { transform: rotateY(300deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(7)  { transform: rotateY(324deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(8)  { transform: rotateY(348deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(9)  { transform: rotateY(12deg)   translateZ(80px); }
-.strand-2 .bar:nth-child(10) { transform: rotateY(36deg)   translateZ(80px); }
-.strand-2 .bar:nth-child(11) { transform: rotateY(60deg)   translateZ(80px); }
-.strand-2 .bar:nth-child(12) { transform: rotateY(84deg)   translateZ(80px); }
-.strand-2 .bar:nth-child(13) { transform: rotateY(108deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(14) { transform: rotateY(132deg)  translateZ(80px); }
-.strand-2 .bar:nth-child(15) { transform: rotateY(156deg)  translateZ(80px); }
+/* Strand 2 - 180 degrees out of phase */
+.strand-2 .bar:nth-child(1)  { top: 5%;   transform: rotateY(180deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(2)  { top: 12%;  transform: rotateY(204deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(3)  { top: 19%;  transform: rotateY(228deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(4)  { top: 26%;  transform: rotateY(252deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(5)  { top: 33%;  transform: rotateY(276deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(6)  { top: 40%;  transform: rotateY(300deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(7)  { top: 47%;  transform: rotateY(324deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(8)  { top: 54%;  transform: rotateY(348deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(9)  { top: 61%;  transform: rotateY(12deg)   translateZ(60px); }
+.strand-2 .bar:nth-child(10) { top: 68%;  transform: rotateY(36deg)   translateZ(60px); }
+.strand-2 .bar:nth-child(11) { top: 75%;  transform: rotateY(60deg)   translateZ(60px); }
+.strand-2 .bar:nth-child(12) { top: 82%;  transform: rotateY(84deg)   translateZ(60px); }
+.strand-2 .bar:nth-child(13) { top: 89%;  transform: rotateY(108deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(14) { top: 96%;  transform: rotateY(132deg)  translateZ(60px); }
+.strand-2 .bar:nth-child(15) { top: 103%; transform: rotateY(156deg)  translateZ(60px); }
 
-/* Keyframes for strand 1 - rotates 360 degrees */
+/* Keyframes */
 @keyframes rotateY-strand-1 {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
 }
 
-/* Keyframes for strand 2 - rotates opposite direction for 180 phase offset */
 @keyframes rotateY-strand-2 {
-  from {
-    transform: rotateY(180deg);
-  }
-  to {
-    transform: rotateY(540deg);
-  }
+  from { transform: rotateY(180deg); }
+  to   { transform: rotateY(540deg); }
 }

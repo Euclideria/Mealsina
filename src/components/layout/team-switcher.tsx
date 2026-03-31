@@ -5,7 +5,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 
-export function TeamSwitcher({}: { teams?: { name: string; logo: string; plan: string }[] }) {
+export function TeamSwitcher() {
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -14,7 +14,7 @@ export function TeamSwitcher({}: { teams?: { name: string; logo: string; plan: s
         <SidebarMenuButton
           size='lg'
           onClick={toggleSidebar}
-          className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+          aria-label='Toggle sidebar'
         >
           <img
             src='/Mealsina_logo.png'

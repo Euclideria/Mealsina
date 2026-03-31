@@ -10,25 +10,98 @@
   background-color: #0a0a0f;
 }
 
-/* SVG container */
-.dna-svg {
+/* DNA wrapper */
+.dna-wrapper {
+  position: absolute;
+  top: 50%;
+  height: 240px;
+  left: 50%;
   width: 800px;
-  height: 400px;
+  margin-top: -120px;
+  margin-left: -400px;
   perspective: 1000px;
 }
 
-/* Group containing line and spheres - rotates in 3D */
-.dna-group {
-  transform-origin: center 200px;
+/* Single line */
+.dna-wrapper > div {
+  position: relative;
+  top: 50%;
+  left: 60px;
+  width: 2px;
+  height: 160px;
+  margin-top: -80px;
+  background-color: rgba(255, 255, 255, 0.1);
+  float: left;
   transform-style: preserve-3d;
+  margin-left: 20px;
   animation: rotation 4s linear infinite;
 }
+
+/* Top capsule */
+.dna-wrapper > div::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -4px;
+  right: -4px;
+  height: 10px;
+  background-color: white;
+  border-radius: 5px;
+  animation: rotation 4s linear infinite reverse;
+  z-index: 1;
+}
+
+/* Bottom capsule */
+.dna-wrapper > div::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: -4px;
+  right: -4px;
+  height: 10px;
+  background-color: white;
+  border-radius: 5px;
+  animation: rotation 4s linear infinite reverse;
+  z-index: 1;
+}
+
+/* Staggered delays */
+.dna-wrapper > div:nth-child(1) { animation-delay: -0.15s; }
+.dna-wrapper > div:nth-child(2) { animation-delay: -0.30s; }
+.dna-wrapper > div:nth-child(3) { animation-delay: -0.45s; }
+.dna-wrapper > div:nth-child(4) { animation-delay: -0.60s; }
+.dna-wrapper > div:nth-child(5) { animation-delay: -0.75s; }
+.dna-wrapper > div:nth-child(6) { animation-delay: -0.90s; }
+.dna-wrapper > div:nth-child(7) { animation-delay: -1.05s; }
+.dna-wrapper > div:nth-child(8) { animation-delay: -1.20s; }
+.dna-wrapper > div:nth-child(9) { animation-delay: -1.35s; }
+.dna-wrapper > div:nth-child(10) { animation-delay: -1.50s; }
+.dna-wrapper > div:nth-child(11) { animation-delay: -1.65s; }
+.dna-wrapper > div:nth-child(12) { animation-delay: -1.80s; }
+.dna-wrapper > div:nth-child(13) { animation-delay: -1.95s; }
+.dna-wrapper > div:nth-child(14) { animation-delay: -2.10s; }
+.dna-wrapper > div:nth-child(15) { animation-delay: -2.25s; }
+.dna-wrapper > div:nth-child(16) { animation-delay: -2.40s; }
+.dna-wrapper > div:nth-child(17) { animation-delay: -2.55s; }
+.dna-wrapper > div:nth-child(18) { animation-delay: -2.70s; }
+.dna-wrapper > div:nth-child(19) { animation-delay: -2.85s; }
+.dna-wrapper > div:nth-child(20) { animation-delay: -3.00s; }
+.dna-wrapper > div:nth-child(21) { animation-delay: -3.15s; }
+.dna-wrapper > div:nth-child(22) { animation-delay: -3.30s; }
+.dna-wrapper > div:nth-child(23) { animation-delay: -3.45s; }
+.dna-wrapper > div:nth-child(24) { animation-delay: -3.60s; }
+.dna-wrapper > div:nth-child(25) { animation-delay: -3.75s; }
+.dna-wrapper > div:nth-child(26) { animation-delay: -3.90s; }
+.dna-wrapper > div:nth-child(27) { animation-delay: -4.05s; }
+.dna-wrapper > div:nth-child(28) { animation-delay: -4.20s; }
+.dna-wrapper > div:nth-child(29) { animation-delay: -4.35s; }
+.dna-wrapper > div:nth-child(30) { animation-delay: -4.50s; }
 
 @keyframes rotation {
   from {
     transform: rotateX(0deg);
   }
   to {
-    transform: rotateX(360deg);
+    transform: rotateX(359deg);
   }
 }

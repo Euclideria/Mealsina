@@ -15,13 +15,14 @@ export function TeamSwitcher() {
           size='lg'
           onClick={toggleSidebar}
           aria-label='Toggle sidebar'
+          className='flex flex-col items-center justify-center gap-1'
         >
           <img
             src='/Mealsina_logo.png'
             alt='Mealsina'
-            className='h-8 w-8 rounded-lg object-contain'
+            className='h-8 w-8 object-contain'
           />
-          <span className='truncate font-semibold'>Mealsina</span>
+          <span className='text-xs font-semibold'>Mealsina</span>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

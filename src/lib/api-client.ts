@@ -76,7 +76,7 @@ async function _refreshAccessToken(): Promise<string> {
     if (!response.ok) {
       // Refresh token expired or invalid - force logout
       useAuthStore.getState().auth.reset()
-      window.location.href = '/sign-in'
+      window.location.href = '/auth'
       throw new Error('Session expired')
     }
 
@@ -91,7 +91,7 @@ async function _refreshAccessToken(): Promise<string> {
     clearTimeout(timeoutId)
     if (error instanceof Error && error.name === 'AbortError') {
       useAuthStore.getState().auth.reset()
-      window.location.href = '/sign-in'
+      window.location.href = '/auth'
       throw new Error('Session refresh timed out')
     }
     throw error
@@ -121,7 +121,7 @@ async function _fetchWithRefresh<T>(
       // If refresh has failed 2+ times, don't retry - force logout
       if (_refreshAttemptCount >= 2) {
         useAuthStore.getState().auth.reset()
-        window.location.href = '/sign-in'
+        window.location.href = '/auth'
         throw new ApiError(401, 'Session expired after multiple refresh attempts')
       }
 
@@ -263,7 +263,7 @@ export const apiClient = {
       // Ensure logout completes even if server unreachable
     } finally {
       useAuthStore.getState().auth.reset()
-      window.location.href = '/sign-in'
+      window.location.href = '/auth'
     }
   },
 }

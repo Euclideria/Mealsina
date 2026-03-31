@@ -3,9 +3,6 @@ import './dna-helix.css'
 export function DNAHelix() {
   return (
     <div className='dna-helix-container'>
-      {/* Glow effect behind */}
-      <div className='dna-glow' />
-
       {/* DNA Helix with two intertwined strands */}
       <div className='dna-wrapper'>
         {/* Strand 1 */}

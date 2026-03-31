@@ -14,12 +14,13 @@
 #dna {
   position: absolute;
   top: 50%;
-  height: 240px;
   left: 50%;
-  width: 800px;
-  margin-top: -120px;
-  margin-left: -400px;
+  width: 240px;
+  height: 800px;
+  margin-top: -400px;
+  margin-left: -120px;
   perspective: 1000px;
+  transform: rotate(90deg);
 }
 
 /* Single line */

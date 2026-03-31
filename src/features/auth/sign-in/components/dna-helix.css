@@ -10,113 +10,135 @@
   background-color: #0a0a0f;
 }
 
-/* DNA element with perspective */
-#dna {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  height: 500px;
-  margin-top: -250px;
-  margin-left: -200px;
-  perspective: 1000px;
+/* Helix wrapper with perspective */
+.helix-wrapper {
+  position: relative;
+  width: 200px;
+  height: 400px;
+  perspective: 800px;
   transform-style: preserve-3d;
 }
 
-/* Strand containers - rotate around Y axis */
-.strand {
+/* Backbone containers */
+.backbone {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  width: 20px;
   height: 100%;
+  margin-left: -10px;
   transform-style: preserve-3d;
 }
 
-.strand-1 {
-  animation: rotateY-strand-1 8s linear infinite;
+.backbone-1 {
+  animation: rotate1 8s linear infinite;
 }
 
-.strand-2 {
-  animation: rotateY-strand-2 8s linear infinite;
+.backbone-2 {
+  animation: rotate2 8s linear infinite;
 }
 
-/* Each bar positioned along helix */
-.bar {
+/* Backbone dots */
+.backbone-dot {
   position: absolute;
   left: 50%;
-  width: 2px;
-  height: 60px;
-  margin-left: -1px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+}
+
+/* Base pairs */
+.base-pair {
+  position: absolute;
+  left: 50%;
+  width: 160px;
+  height: 4px;
+  margin-left: -80px;
   background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
   transform-style: preserve-3d;
 }
 
-/* Ball at top of bar */
-.bar::before {
-  content: "";
+/* Spheres at ends of base pairs */
+.base-pair .sphere {
   position: absolute;
-  top: -6px;
-  left: -5px;
+  top: -4px;
   width: 12px;
   height: 12px;
   background: white;
   border-radius: 50%;
 }
 
-/* Ball at bottom of bar */
-.bar::after {
-  content: "";
-  position: absolute;
-  bottom: -6px;
-  left: -5px;
-  width: 12px;
-  height: 12px;
-  background: white;
-  border-radius: 50%;
+.base-pair .sphere:first-child {
+  left: -6px;
 }
 
-/* Strand 1 - bars at different heights with rotateY and translateZ */
-.strand-1 .bar:nth-child(1)  { top: 5%;   transform: rotateY(0deg)    translateZ(60px); }
-.strand-1 .bar:nth-child(2)  { top: 12%;  transform: rotateY(24deg)   translateZ(60px); }
-.strand-1 .bar:nth-child(3)  { top: 19%;  transform: rotateY(48deg)   translateZ(60px); }
-.strand-1 .bar:nth-child(4)  { top: 26%;  transform: rotateY(72deg)   translateZ(60px); }
-.strand-1 .bar:nth-child(5)  { top: 33%;  transform: rotateY(96deg)   translateZ(60px); }
-.strand-1 .bar:nth-child(6)  { top: 40%;  transform: rotateY(120deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(7)  { top: 47%;  transform: rotateY(144deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(8)  { top: 54%;  transform: rotateY(168deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(9)  { top: 61%;  transform: rotateY(192deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(10) { top: 68%;  transform: rotateY(216deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(11) { top: 75%;  transform: rotateY(240deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(12) { top: 82%;  transform: rotateY(264deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(13) { top: 89%;  transform: rotateY(288deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(14) { top: 96%;  transform: rotateY(312deg)  translateZ(60px); }
-.strand-1 .bar:nth-child(15) { top: 103%; transform: rotateY(336deg)  translateZ(60px); }
+.base-pair .sphere:last-child {
+  right: -6px;
+}
 
-/* Strand 2 - 180 degrees out of phase */
-.strand-2 .bar:nth-child(1)  { top: 5%;   transform: rotateY(180deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(2)  { top: 12%;  transform: rotateY(204deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(3)  { top: 19%;  transform: rotateY(228deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(4)  { top: 26%;  transform: rotateY(252deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(5)  { top: 33%;  transform: rotateY(276deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(6)  { top: 40%;  transform: rotateY(300deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(7)  { top: 47%;  transform: rotateY(324deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(8)  { top: 54%;  transform: rotateY(348deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(9)  { top: 61%;  transform: rotateY(12deg)   translateZ(60px); }
-.strand-2 .bar:nth-child(10) { top: 68%;  transform: rotateY(36deg)   translateZ(60px); }
-.strand-2 .bar:nth-child(11) { top: 75%;  transform: rotateY(60deg)   translateZ(60px); }
-.strand-2 .bar:nth-child(12) { top: 82%;  transform: rotateY(84deg)   translateZ(60px); }
-.strand-2 .bar:nth-child(13) { top: 89%;  transform: rotateY(108deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(14) { top: 96%;  transform: rotateY(132deg)  translateZ(60px); }
-.strand-2 .bar:nth-child(15) { top: 103%; transform: rotateY(156deg)  translateZ(60px); }
+/* Base pair positions at different Y rotations */
+.base-pair:nth-child(1)  { transform: rotateY(0deg); }
+.base-pair:nth-child(2)  { transform: rotateY(22.5deg); }
+.base-pair:nth-child(3)  { transform: rotateY(45deg); }
+.base-pair:nth-child(4)  { transform: rotateY(67.5deg); }
+.base-pair:nth-child(5)  { transform: rotateY(90deg); }
+.base-pair:nth-child(6)  { transform: rotateY(112.5deg); }
+.base-pair:nth-child(7)  { transform: rotateY(135deg); }
+.base-pair:nth-child(8)  { transform: rotateY(157.5deg); }
+.base-pair:nth-child(9)  { transform: rotateY(180deg); }
+.base-pair:nth-child(10) { transform: rotateY(202.5deg); }
+.base-pair:nth-child(11) { transform: rotateY(225deg); }
+.base-pair:nth-child(12) { transform: rotateY(247.5deg); }
+.base-pair:nth-child(13) { transform: rotateY(270deg); }
+.base-pair:nth-child(14) { transform: rotateY(292.5deg); }
+.base-pair:nth-child(15) { transform: rotateY(315deg); }
+.base-pair:nth-child(16) { transform: rotateY(337.5deg); }
 
-/* Keyframes */
-@keyframes rotateY-strand-1 {
+/* Backbone 1 dots positioned by rotation */
+.backbone-1 .backbone-dot:nth-child(1)  { transform: rotateY(0deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(2)  { transform: rotateY(22.5deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(3)  { transform: rotateY(45deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(4)  { transform: rotateY(67.5deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(5)  { transform: rotateY(90deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(6)  { transform: rotateY(112.5deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(7)  { transform: rotateY(135deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(8)  { transform: rotateY(157.5deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(9)  { transform: rotateY(180deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(10) { transform: rotateY(202.5deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(11) { transform: rotateY(225deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(12) { transform: rotateY(247.5deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(13) { transform: rotateY(270deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(14) { transform: rotateY(292.5deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(15) { transform: rotateY(315deg) translateX(-40px); }
+.backbone-1 .backbone-dot:nth-child(16) { transform: rotateY(337.5deg) translateX(-40px); }
+
+/* Backbone 2 dots 180 degrees offset */
+.backbone-2 .backbone-dot:nth-child(1)  { transform: rotateY(180deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(2)  { transform: rotateY(202.5deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(3)  { transform: rotateY(225deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(4)  { transform: rotateY(247.5deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(5)  { transform: rotateY(270deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(6)  { transform: rotateY(292.5deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(7)  { transform: rotateY(315deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(8)  { transform: rotateY(337.5deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(9)  { transform: rotateY(0deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(10) { transform: rotateY(22.5deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(11) { transform: rotateY(45deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(12) { transform: rotateY(67.5deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(13) { transform: rotateY(90deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(14) { transform: rotateY(112.5deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(15) { transform: rotateY(135deg) translateX(40px); }
+.backbone-2 .backbone-dot:nth-child(16) { transform: rotateY(157.5deg) translateX(40px); }
+
+@keyframes rotate1 {
   from { transform: rotateY(0deg); }
   to   { transform: rotateY(360deg); }
 }
 
-@keyframes rotateY-strand-2 {
+@keyframes rotate2 {
   from { transform: rotateY(180deg); }
   to   { transform: rotateY(540deg); }
 }

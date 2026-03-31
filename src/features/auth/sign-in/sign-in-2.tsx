@@ -3,7 +3,10 @@ import { DNAHelix } from './components/dna-helix'
 
 export function SignIn2() {
   return (
-    <div className='grid min-h-svh lg:grid-cols-2'>
+    <div className='relative grid min-h-svh lg:grid-cols-2'>
+      <div className='absolute start-8 top-8'>
+        <img src='/Mealsina_logo.png' alt='Mealsina' className='h-12 w-auto' />
+      </div>
       <div className='flex flex-col items-center justify-center px-8'>
         <div className='w-full max-w-sm space-y-6'>
           <div className='flex flex-col space-y-2 text-start'>

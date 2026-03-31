@@ -12,7 +12,7 @@ export function SignIn2() {
           <UserAuthForm />
         </div>
       </div>
-      <div className='hidden bg-muted lg:flex lg:items-center lg:justify-center'>
+      <div className='hidden bg-[#0a0a0f] lg:flex lg:items-center lg:justify-center'>
         <DNAHelix />
       </div>
     </div>

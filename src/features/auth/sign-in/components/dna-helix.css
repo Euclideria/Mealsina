@@ -1,3 +1,4 @@
+/* DNA Helix Container */
 .dna-helix-container {
   position: relative;
   width: 100%;
@@ -8,82 +9,110 @@
   overflow: hidden;
 }
 
-.dna-helix-wrapper {
+/* Centered DNA wrapper */
+.dna-wrapper {
   position: relative;
-  width: 200px;
-  height: 400px;
+  width: 120px;
+  height: 320px;
   transform-style: preserve-3d;
-  animation: helixRotate 30s linear infinite;
 }
 
-@keyframes helixRotate {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
-
-.helix-strand {
+/* Single bar of the helix */
+.dna-bar {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  animation: strandPulse 4s ease-in-out infinite;
+  left: 50px;
+  width: 2px;
+  height: 160px;
+  margin-top: -80px;
+  background: rgba(255, 255, 255, 0.15);
+  transform-style: preserve-3d;
+  animation: rotation 4s linear infinite;
 }
 
-@keyframes strandPulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
-}
-
-.helix-base-pair {
+/* Balls at top and bottom of each bar */
+.dna-bar::before {
+  content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.particle-field {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: var(--ring);
+  top: -8px;
+  left: -6px;
+  width: 14px;
+  height: 14px;
+  background: #2B4E8C;
   border-radius: 50%;
-  opacity: 0.4;
-  animation: particleFloat 20s ease-in-out infinite;
+  animation: rotation 4s linear infinite reverse;
+  box-shadow: 0 0 10px rgba(42, 78, 140, 0.8);
 }
 
-@keyframes particleFloat {
-  0%, 100% { transform: translate(0, 0); opacity: 0.4; }
-  25% { transform: translate(20px, -30px); opacity: 0.6; }
-  50% { transform: translate(-10px, -60px); opacity: 0.3; }
-  75% { transform: translate(30px, -40px); opacity: 0.5; }
-}
-
-.glass-orb {
+.dna-bar::after {
+  content: "";
   position: absolute;
+  bottom: -8px;
+  left: -6px;
+  width: 14px;
+  height: 14px;
+  background: #6B9BD2;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  animation: orbDrift 15s ease-in-out infinite;
+  animation: rotation 4s linear infinite reverse;
+  box-shadow: 0 0 10px rgba(107, 155, 210, 0.8);
 }
 
-.glass-orb:nth-child(1) {
-  width: 200px; height: 200px; top: 10%; left: 10%;
-}
-.glass-orb:nth-child(2) {
-  width: 150px; height: 150px; bottom: 20%; right: 15%;
-}
-.glass-orb:nth-child(3) {
-  width: 100px; height: 100px; top: 50%; left: 50%;
+/* Generate 30 bars with staggered animation delays */
+.dna-bar:nth-child(1) { animation-delay: 0s; }
+.dna-bar:nth-child(2) { animation-delay: 0.15s; }
+.dna-bar:nth-child(3) { animation-delay: 0.3s; }
+.dna-bar:nth-child(4) { animation-delay: 0.45s; }
+.dna-bar:nth-child(5) { animation-delay: 0.6s; }
+.dna-bar:nth-child(6) { animation-delay: 0.75s; }
+.dna-bar:nth-child(7) { animation-delay: 0.9s; }
+.dna-bar:nth-child(8) { animation-delay: 1.05s; }
+.dna-bar:nth-child(9) { animation-delay: 1.2s; }
+.dna-bar:nth-child(10) { animation-delay: 1.35s; }
+.dna-bar:nth-child(11) { animation-delay: 1.5s; }
+.dna-bar:nth-child(12) { animation-delay: 1.65s; }
+.dna-bar:nth-child(13) { animation-delay: 1.8s; }
+.dna-bar:nth-child(14) { animation-delay: 1.95s; }
+.dna-bar:nth-child(15) { animation-delay: 2.1s; }
+.dna-bar:nth-child(16) { animation-delay: 2.25s; }
+.dna-bar:nth-child(17) { animation-delay: 2.4s; }
+.dna-bar:nth-child(18) { animation-delay: 2.55s; }
+.dna-bar:nth-child(19) { animation-delay: 2.7s; }
+.dna-bar:nth-child(20) { animation-delay: 2.85s; }
+.dna-bar:nth-child(21) { animation-delay: 3s; }
+.dna-bar:nth-child(22) { animation-delay: 3.15s; }
+.dna-bar:nth-child(23) { animation-delay: 3.3s; }
+.dna-bar:nth-child(24) { animation-delay: 3.45s; }
+.dna-bar:nth-child(25) { animation-delay: 3.6s; }
+.dna-bar:nth-child(26) { animation-delay: 3.75s; }
+.dna-bar:nth-child(27) { animation-delay: 3.9s; }
+.dna-bar:nth-child(28) { animation-delay: 4.05s; }
+.dna-bar:nth-child(29) { animation-delay: 4.2s; }
+.dna-bar:nth-child(30) { animation-delay: 4.35s; }
+
+/* Reverse delays for the balls (::before and ::after) */
+.dna-bar:nth-child(1)::before,
+.dna-bar:nth-child(1)::after { animation-delay: 0s; }
+
+@keyframes rotation {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(360deg);
+  }
 }
 
-@keyframes orbDrift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(20px, -20px) scale(1.05); }
-  66% { transform: translate(-15px, 15px) scale(0.95); }
+/* Glow effect behind the DNA */
+.dna-glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(42, 78, 140, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
